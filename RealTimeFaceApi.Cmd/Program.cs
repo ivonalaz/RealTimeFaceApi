@@ -1,5 +1,4 @@
-﻿using Microsoft.Azure.CognitiveServices.Vision.Face;
-using Microsoft.Azure.CognitiveServices.Vision.Face.Models;
+﻿using Microsoft.Azure.CognitiveServices.Vision.Face.Models;
 using OpenCvSharp;
 using RealTimeFaceApi.Core.Data;
 using RealTimeFaceApi.Core.Filters;
@@ -9,16 +8,19 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.Azure.CognitiveServices.Vision.Face;
+using FaceAPI = Microsoft.Azure.CognitiveServices.Vision.Face;
+using RealTimeFaceApi.Core.Utils;
 
 namespace RealTimeFaceApi.Cmd
 {
     public static class Program
     {
         // TODO: Add Face API subscription key.
-        private static string FaceSubscriptionKey = "";
+        private static string FaceSubscriptionKey = "d14d90267f6d468eb7eaf8c051faf548";
 
         // TODO: Add face group ID.
-        private static string FaceGroupId = "";
+        private static string FaceGroupId = "1";
 
         private static readonly Scalar _faceColorBrush = new Scalar(0, 0, 255);
         private static FaceClient _faceClient;
@@ -29,10 +31,11 @@ namespace RealTimeFaceApi.Cmd
         {
             _faceClient = new FaceClient(new ApiKeyServiceClientCredentials(FaceSubscriptionKey))
             {
-                Endpoint = "https://westus.api.cognitive.microsoft.com"
+                Endpoint = "https://eastus.api.cognitive.microsoft.com"
             };
 
             string filename = args.FirstOrDefault();
+            //Run("C:\\git\\Videos\\Faces.mp4");
             Run(filename);
         }
 
@@ -137,18 +140,29 @@ namespace RealTimeFaceApi.Cmd
                 Console.WriteLine(DateTime.Now + ": Attempting to recognize faces...");
                 
                 var stream = image.ToMemoryStream();
-                var detectedFaces = await _faceClient.Face.DetectWithStreamAsync(stream, true, true);
+                //var detectedFaces = await _faceClient.Face.DetectWithStreamAsync(stream, true, true);
+                var detectedFaces = (await _faceClient.Face.DetectWithStreamAsync(stream, returnFaceId: true,
+                    returnFaceLandmarks: true,
+                    returnFaceAttributes: new FaceAttributeType[1] { FaceAttributeType.Emotion })).ToArray();
+
                 var faceIds = detectedFaces.Where(f => f.FaceId.HasValue).Select(f => f.FaceId.Value).ToList();
 
-                if (faceIds.Any())
+
+                foreach (var face in detectedFaces)
                 {
-                    var potentialUsers = await _faceClient.Face.IdentifyAsync(faceIds, FaceGroupId);
-                    foreach (var candidate in potentialUsers.Select(u => u.Candidates.FirstOrDefault()))
-                    {
-                        var candidateName = await GetCandidateName(candidate?.PersonId);
-                        Console.WriteLine($"{DateTime.Now}: {candidateName} ({candidate?.PersonId})");
-                    }
+                    var summrizedEmotion = Aggregation.SummarizeEmotion(face.FaceAttributes.Emotion);
+                    Console.WriteLine("Emotion: " + summrizedEmotion);
                 }
+                
+                //if (faceIds.Any())
+                //{
+                //    var potentialUsers = await _faceClient.Face.IdentifyAsync(faceIds, FaceGroupId);
+                //    foreach (var candidate in potentialUsers.Select(u => u.Candidates.FirstOrDefault()))
+                //    {
+                //        var candidateName = await GetCandidateName(candidate?.PersonId);
+                //        Console.WriteLine($"{DateTime.Now}: {candidateName} ({candidate?.PersonId})");
+                //    }
+                //}
             }
             catch (APIErrorException apiError)
             {
