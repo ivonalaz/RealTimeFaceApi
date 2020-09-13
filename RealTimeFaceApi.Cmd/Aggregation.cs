@@ -25,10 +25,16 @@ namespace RealTimeFaceApi.Core.Utils
                 .First();
         }
 
-        public static string SummarizeEmotion(Emotion scores)
+        public static string SummarizeEmotionConsole(Emotion scores)
         {
             var bestEmotion = Aggregation.GetDominantEmotion(scores);
             return string.Format("{0}: {1:N1}", bestEmotion.Key, bestEmotion.Value);
+        }
+
+        public static KeyValuePair<string,double> SummarizeEmotion(Emotion scores)
+        {
+            var bestEmotion = Aggregation.GetDominantEmotion(scores);
+            return bestEmotion;
         }
 
         public static string SummarizeFaceAttributes(FaceAttributes attr)

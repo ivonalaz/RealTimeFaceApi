@@ -9,15 +9,16 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Azure.CognitiveServices.Vision.Face;
-using FaceAPI = Microsoft.Azure.CognitiveServices.Vision.Face;
 using RealTimeFaceApi.Core.Utils;
+using RealTimeFaceApi.DataAccess;
+using System.Data.SQLite;
 
 namespace RealTimeFaceApi.Cmd
 {
     public static class Program
     {
         // TODO: Add Face API subscription key.
-        private static string FaceSubscriptionKey = "d14d90267f6d468eb7eaf8c051faf548";
+        private static string FaceSubscriptionKey = "866c10624e674fce9b5cb5fbad86bccc";
 
         // TODO: Add face group ID.
         private static string FaceGroupId = "1";
@@ -33,6 +34,12 @@ namespace RealTimeFaceApi.Cmd
             {
                 Endpoint = "https://eastus.api.cognitive.microsoft.com"
             };
+
+            //run first time to create the table
+            //DbConnection.CreateConnection();
+            //DbConnection.CreateTable();
+
+            DbConnection.CreateConnection();
 
             string filename = args.FirstOrDefault();
             //Run("C:\\git\\Videos\\Faces.mp4");
@@ -135,6 +142,7 @@ namespace RealTimeFaceApi.Cmd
         /// <param name="image">Video or web cam frame.</param>
         private static async Task StartRecognizing(Mat image)
         {
+            
             try
             {
                 Console.WriteLine(DateTime.Now + ": Attempting to recognize faces...");
@@ -150,10 +158,12 @@ namespace RealTimeFaceApi.Cmd
 
                 foreach (var face in detectedFaces)
                 {
-                    var summrizedEmotion = Aggregation.SummarizeEmotion(face.FaceAttributes.Emotion);
+                    var summrizedEmotion = Aggregation.SummarizeEmotionConsole(face.FaceAttributes.Emotion);
                     Console.WriteLine("Emotion: " + summrizedEmotion);
+                    DbConnection.InsertData(Aggregation.SummarizeEmotion(face.FaceAttributes.Emotion));
+                    //DbConnection.ReadData();
                 }
-                
+
                 //if (faceIds.Any())
                 //{
                 //    var potentialUsers = await _faceClient.Face.IdentifyAsync(faceIds, FaceGroupId);

@@ -3,11 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.28407.52
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RealTimeFaceApi.Cmd", "RealTimeFaceApi.Cmd\RealTimeFaceApi.Cmd.csproj", "{2C956570-3526-40D3-9AC4-A62886DB21CA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RealTimeFaceApi.Cmd", "RealTimeFaceApi.Cmd\RealTimeFaceApi.Cmd.csproj", "{2C956570-3526-40D3-9AC4-A62886DB21CA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RealTimeFaceApi.Core", "RealTimeFaceApi.Core\RealTimeFaceApi.Core.csproj", "{8227F3FC-BEB0-496C-92EA-DE9B5E553E55}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RealTimeFaceApi.Core", "RealTimeFaceApi.Core\RealTimeFaceApi.Core.csproj", "{8227F3FC-BEB0-496C-92EA-DE9B5E553E55}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RealTimeFaceApi.Core.Tests", "RealTimeFaceApi.Core.Tests\RealTimeFaceApi.Core.Tests.csproj", "{081C7979-0B70-4909-9743-9A6542D6D75A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RealTimeFaceApi.Core.Tests", "RealTimeFaceApi.Core.Tests\RealTimeFaceApi.Core.Tests.csproj", "{081C7979-0B70-4909-9743-9A6542D6D75A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RealTimeFaceApi.DataAccess", "RealTimeFaceApi.DataAccess\RealTimeFaceApi.DataAccess.csproj", "{3807DAC1-FB0E-43A9-8CE8-33CFF657D6E2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +29,10 @@ Global
 		{081C7979-0B70-4909-9743-9A6542D6D75A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{081C7979-0B70-4909-9743-9A6542D6D75A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{081C7979-0B70-4909-9743-9A6542D6D75A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3807DAC1-FB0E-43A9-8CE8-33CFF657D6E2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3807DAC1-FB0E-43A9-8CE8-33CFF657D6E2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3807DAC1-FB0E-43A9-8CE8-33CFF657D6E2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3807DAC1-FB0E-43A9-8CE8-33CFF657D6E2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
